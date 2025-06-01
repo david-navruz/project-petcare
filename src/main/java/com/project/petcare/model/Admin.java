@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "admin_id")
 public class Admin extends User {
