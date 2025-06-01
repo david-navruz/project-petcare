@@ -16,6 +16,4 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(name = "pet_id")
 public class PetOwner extends User {
 
-
-
 }
