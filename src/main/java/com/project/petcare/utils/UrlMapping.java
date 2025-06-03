@@ -2,14 +2,14 @@ package com.project.petcare.utils;
 
 public class UrlMapping {
 
-    public static final String API = "/api/v1" ;
+    public static final String BASE_API = "/api/v1" ;
 
     /*========================== User API Endpoints =================================*/
-    public static final String USERS = API+"/users" ;
+    public static final String USERS = BASE_API+"/users" ;
     public static final String REGISTER_USER = "/register";
-    public static final String UPDATE_USER = "/user/{userId}/update";
-    public static final String GET_USER_BY_ID = "/user/{userId}";
-    public static final String DELETE_USER_BY_ID ="/user/{userId}/delete";
+    public static final String UPDATE_USER = "/{userId}/update";
+    public static final String GET_USER_BY_ID = "/{userId}";
+    public static final String DELETE_USER_BY_ID ="/{userId}/delete";
     public static final String GET_ALL_USERS = "/all-users";
     public static final String AGGREGATE_BY_STATUS = "/account/aggregated-by-status";
     public static final String LOCK_USER_ACCOUNT = "/account/{userId}/lock-user-account";
@@ -22,7 +22,7 @@ public class UrlMapping {
 
 
     /*========================== Appointment API Endpoints =================================*/
-    public static final String APPOINTMENTS = API+"/appointments";
+    public static final String APPOINTMENTS = BASE_API+"/appointments";
     public static final String ALL_APPOINTMENT = "/all" ;
     public static final String BOOK_APPOINTMENT = "/book-appointment" ;
     public static final String GET_APPOINTMENT_BY_ID = "/appointment/{id}/fetch/appointment" ;
@@ -38,7 +38,7 @@ public class UrlMapping {
     
 
     /*============================ Pet API Endpoints ===================================*/
-    public static final String PETS =API+"/pets" ;
+    public static final String PETS = BASE_API+"/pets" ;
     public static final String SAVE_PETS_FOR_APPOINTMENT ="/save-pets" ;
     public static final String GET_PET_BY_ID = "/pet/{petId}/pet" ;
     public static final String DELETE_PET_BY_ID = "/pet/{petId}/delete" ;
@@ -50,7 +50,7 @@ public class UrlMapping {
 
 
     /*============================ Photo API Endpoints ===================================*/
-    public static final String PHOTOS = API+"/photos" ;
+    public static final String PHOTOS = BASE_API+"/photos" ;
     public static final String UPLOAD_PHOTO = "/photo/upload" ;
     public static final String UPDATE_PHOTO = "/photo/{photoId}/update"; ;
     public static final String DELETE_PHOTO = "/photo/{photoId}/{userId}/delete" ;
@@ -59,7 +59,7 @@ public class UrlMapping {
 
 
     /*============================ Review API Endpoints ===================================*/
-    public static final String REVIEWS = API+"/reviews" ;
+    public static final String REVIEWS = BASE_API+"/reviews" ;
     public static final String SUBMIT_REVIEW = "/submit-review" ;
     public static final String GET_USER_REVIEWS = "/user/{userId}/reviews" ;
     public static final String UPDATE_REVIEW = "/review/{reviewId}/update" ;
@@ -69,7 +69,7 @@ public class UrlMapping {
 
 
     /*============================ Veterinarian API Endpoints ===================================*/
-    public static final String VETERINARIANS = API+"/veterinarians";
+    public static final String VETERINARIANS = BASE_API+"/veterinarians";
     public static final String GET_ALL_VETERINARIANS = "/get-all-veterinarians";
     public static final String SEARCH_VETERINARIAN_FOR_APPOINTMENT = "/search-veterinarian";
     public static final String GET_ALL_SPECIALIZATIONS = "vet/get-all-specialization" ;
@@ -87,13 +87,13 @@ public class UrlMapping {
 
 
     /*============================ PetOwner API Endpoints ===================================*/
-    public static final String PATIENTS =API+"/patients";
+    public static final String PATIENTS = BASE_API+"/patients";
     public static final String GET_ALL_PATIENTS = "/get-all-patients";
 
 
 
     /*============================ Verification Token Endpoints ===================================*/
-    public static final String TOKEN_VERIFICATION = API+"/verification";
+    public static final String TOKEN_VERIFICATION = BASE_API+"/verification";
     public static final String VALIDATE_TOKEN = "/validate-token";
     public static final String CHECK_TOKEN_EXPIRATION = "/check-token-expiration";
     public static final String SAVE_TOKEN = "/user/save-token" ;

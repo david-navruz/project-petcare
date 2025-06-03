@@ -1,6 +1,6 @@
 package com.project.petcare.factory;
 
-import com.project.petcare.exception.AlreadyExistsException;
+import com.project.petcare.exception.UserAlreadyExistsException;
 import com.project.petcare.model.User;
 import com.project.petcare.repository.UserRepository;
 import com.project.petcare.request.RegistrationRequest;
@@ -19,9 +19,9 @@ public class SimpleUserFactory implements UserFactory {
 
 
     @Override
-    public User createUser(RegistrationRequest registrationRequest) {
+    public User createNewUser(RegistrationRequest registrationRequest) {
         if (userRepository.existsByEmail(registrationRequest.getEmail())){
-            throw new AlreadyExistsException("Oops! "+registrationRequest.getEmail()+ " already exists!" );
+            throw new UserAlreadyExistsException("Oops! "+registrationRequest.getEmail()+ " already exists!" );
         }
         // encoding the password
       //  registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
