@@ -1,10 +1,8 @@
 package com.project.petcare.factory;
 
+import com.project.petcare.exception.AlreadyExistsException;
 import com.project.petcare.model.User;
-import com.project.petcare.repository.AdminRepository;
-import com.project.petcare.repository.PetOwnerRepository;
 import com.project.petcare.repository.UserRepository;
-import com.project.petcare.repository.VeterinarianRepository;
 import com.project.petcare.request.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,14 +12,34 @@ import org.springframework.stereotype.Component;
 public class SimpleUserFactory implements UserFactory {
 
     private final UserRepository userRepository;
-    private final VeterinarianRepository veterinarianRepository;
-    private final PetOwnerRepository petOwnerRepository;
-    private final AdminRepository adminRepository;
+    private final VeterinarianFactory veterinarianFactory;
+    private final PetOwnerFactory petOwnerFactory;
+    private final AdminFactory adminFactory;
+  //  private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public User createUser(RegistrationRequest registrationRequest) {
-        return null;
+        if (userRepository.existsByEmail(registrationRequest.getEmail())){
+            throw new AlreadyExistsException("Oops! "+registrationRequest.getEmail()+ " already exists!" );
+        }
+        // encoding the password
+      //  registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+
+        switch (registrationRequest.getUserType()) {
+            case "VET" -> {
+                return veterinarianFactory.createVeterinarian(registrationRequest);
+            }
+            case "ADMIN" -> {
+                return adminFactory.createAdmin(registrationRequest);
+            }
+            case "PETOWNER" -> {
+                return petOwnerFactory.createPetOwner(registrationRequest);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
 }
