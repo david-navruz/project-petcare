@@ -30,7 +30,7 @@ public class RoleService implements IRoleService {
 
     @Override
     public Role getRoleByName(String roleName) {
-        return roleRepository.findByName(roleName).orElse(null);
+        return roleRepository.findByRoleName(roleName).orElse(null);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class RoleService implements IRoleService {
     @Override
     public Set<Role> setUserRole(String userType) {
         Set<Role> userRoles = new HashSet<>();
-        roleRepository.findByName("ROLE_" + userType)
+        roleRepository.findByRoleName("ROLE_" + userType)
                 .ifPresentOrElse(userRoles::add, () -> {
                     throw new ResourceNotFoundException(FeedBackMessage.ROLE_NOT_FOUND);
                 });

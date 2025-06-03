@@ -1,19 +1,22 @@
 package com.project.petcare.service.user;
 
+import com.project.petcare.factory.UserFactory;
 import com.project.petcare.model.User;
-import com.project.petcare.repository.UserRepository;
+import com.project.petcare.request.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
-    private final UserRepository userRepository;
+    private final UserFactory userFactory;
 
 
-    public void addUser(User user){
-         userRepository.save(user);
+    @Override
+    public User createNewUser(RegistrationRequest request) {
+        return userFactory.createUser(request);
     }
+
 
 }
