@@ -20,7 +20,7 @@ import java.util.Random;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties({"patient","veterinarian"})
+@JsonIgnoreProperties({"petOwner","veterinarian"})
 public class Appointment {
 
     @Id
@@ -56,7 +56,6 @@ public class Appointment {
 
 
     /** Methode pour ajouter un PetOwner pour un rendez-vous
-     *
      * @param sender
      */
     public void addPetOwner(User sender){
@@ -68,7 +67,6 @@ public class Appointment {
     }
 
     /** Methode pour ajouter un Veterinarian pour un rendez-vous
-     *
      * @param recipient
      */
     public void addVeterinarian(User recipient){
