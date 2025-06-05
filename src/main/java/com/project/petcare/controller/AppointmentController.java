@@ -3,8 +3,9 @@ package com.project.petcare.controller;
 import com.project.petcare.exception.ResourceNotFoundException;
 import com.project.petcare.model.Appointment;
 import com.project.petcare.request.AppointmentUpdateRequest;
+import com.project.petcare.request.BookAppointmentRequest;
 import com.project.petcare.response.APIResponse;
-import com.project.petcare.service.appointment.AppointmentService;
+import com.project.petcare.service.appointment.IAppointmentService;
 import com.project.petcare.utils.FeedBackMessage;
 import com.project.petcare.utils.UrlMapping;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +20,16 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 public class AppointmentController {
 
-    private final AppointmentService appointmentService;
+    private final IAppointmentService appointmentService;
 
 
     @PostMapping(UrlMapping.BOOK_APPOINTMENT)
     public ResponseEntity<APIResponse> bookAppointment(
-            @RequestBody Appointment appointment,
+            @RequestBody BookAppointmentRequest appointmentRequest,
             @RequestParam Long senderId,
             @RequestParam Long recipientId) {
         try {
-            Appointment theAppointment = appointmentService.createAppointment(appointment, senderId, recipientId);
+            Appointment theAppointment = appointmentService.createAppointment(appointmentRequest, senderId, recipientId);
             return ResponseEntity.ok(new APIResponse(FeedBackMessage.SUCCESS, theAppointment));
 
         } catch (ResourceNotFoundException e) {

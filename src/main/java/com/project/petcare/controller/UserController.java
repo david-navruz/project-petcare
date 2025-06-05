@@ -8,7 +8,7 @@ import com.project.petcare.model.User;
 import com.project.petcare.request.RegistrationRequest;
 import com.project.petcare.request.UserUpdateRequest;
 import com.project.petcare.response.APIResponse;
-import com.project.petcare.service.user.UserService;
+import com.project.petcare.service.user.IUserService;
 import com.project.petcare.utils.FeedBackMessage;
 import com.project.petcare.utils.UrlMapping;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
     private final EntityConverter<User, UserDTO> entityConverter;
 
 

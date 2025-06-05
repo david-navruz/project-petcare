@@ -12,9 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//  empêche la sérialisation JSON pour éviter des cycles infinis
-//  ou des données non nécessaires lors des appels REST
-@JsonIgnoreProperties({"appointment"})
+@JsonIgnoreProperties({"appointment"})  // empêche la sérialisation JSON pour éviter des cycles infinis ou des données non nécessaires lors des appels REST
 public class Pet {
 
     @Id

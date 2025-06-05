@@ -2,12 +2,13 @@ package com.project.petcare.service.appointment;
 
 import com.project.petcare.model.Appointment;
 import com.project.petcare.request.AppointmentUpdateRequest;
+import com.project.petcare.request.BookAppointmentRequest;
 
 import java.util.List;
 
 public interface IAppointmentService {
 
-    Appointment createAppointment(Appointment appointment, Long senderId, Long recipientId);
+    Appointment createAppointment(BookAppointmentRequest appointmentRequest, Long senderId, Long recipientId);
 
     Appointment updateAppointment(Long id, AppointmentUpdateRequest updateRequest);
 
