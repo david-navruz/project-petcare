@@ -37,7 +37,7 @@ public class FeedBackMessage {
     public static final String APPOINTMENT_NOT_FOUND = "Appointment not found";
     public static final String APPOINTMENT_UPDATE_NOT_ALLOWED = "Cannot update or cancel appointment";
     public static final String OPERATION_NOT_ALLOWED = "Operation not allowed";
-
+    public static final String ALREADY_APPROVED = "Sorry, this appointment is already approved";
 
 
     /*======================== Pet API =====================================*/

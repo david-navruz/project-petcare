@@ -1,5 +1,6 @@
 package com.project.petcare.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,7 @@ public class User {
     @Transient
     private String specialization;
 
+    @JsonIgnore
     @Transient
     private List<Appointment> appointments = new ArrayList<>();
 
