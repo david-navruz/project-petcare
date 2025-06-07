@@ -33,7 +33,7 @@ public class PhotoController {
 
         try {
             Photo photo = photoService.savePhoto(file, userId);
-            return ResponseEntity.ok(new APIResponse(FeedBackMessage.PHOTO_UPDATE_SUCCESS, photo));
+            return ResponseEntity.ok(new APIResponse(FeedBackMessage.PHOTO_UPDATE_SUCCESS, photo.getId()));
         } catch (IOException | SQLException e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new APIResponse(e.getMessage(), null));
         }
