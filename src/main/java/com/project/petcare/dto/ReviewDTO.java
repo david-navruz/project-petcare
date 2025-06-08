@@ -1,16 +1,14 @@
 package com.project.petcare.dto;
 
-import lombok.Data;
+public record ReviewDTO(
+        Long id,
+        int stars,
+        String feedback,
+        Long veterinarianId,
+        String veterinarianName,
+        Long petOwnerId,
+        String petOwnerName,
+        byte[] petOwnerImage,
+        byte[] veterinarianImage
+) {}
 
-@Data
-public class ReviewDTO {
-    private Long id;
-    private int stars;
-    private String feedback;
-    private Long veterinarianId;
-    private String veterinarianName;
-    private Long petOwnerId;
-    private String petOwnerName;
-    private byte[] petOwnerImage;
-    private byte[] veterinarianImage;
-}

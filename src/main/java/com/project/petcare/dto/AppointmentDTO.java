@@ -6,15 +6,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class AppointmentDTO {
-    private Long id;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
-    private LocalDate createdAt;
-    private String reason;
-    private AppointmentStatus status;
-    private String appointmentNo;
-    private PetOwnerDTO patient;
-    private VeterinarianDTO veterinarian;
-    private List<PetDTO> pets;
-}
+public record AppointmentDTO(
+        Long id,
+        LocalDate appointmentDate,
+        LocalTime appointmentTime,
+        LocalDate createdAt,
+        String reason,
+        AppointmentStatus status,
+        String appointmentNo,
+        PetOwnerDTO patient,
+        VeterinarianDTO veterinarian,
+        List<PetDTO> pets
+) {}

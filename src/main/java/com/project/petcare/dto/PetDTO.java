@@ -1,13 +1,11 @@
 package com.project.petcare.dto;
 
-import lombok.Data;
+public record PetDTO(
+        Long id,
+        String name,
+        String type,
+        String color,
+        String breed,
+        int age
+) {}
 
-@Data
-public class PetDTO {
-    private Long id;
-    private String name;
-    private String type;
-    private String color;
-    private String breed;
-    private int age;
-}
