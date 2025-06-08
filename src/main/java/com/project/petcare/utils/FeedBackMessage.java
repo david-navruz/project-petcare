@@ -50,6 +50,7 @@ public class FeedBackMessage {
 
 
     /*======================== Review API =====================================*/
+    public static final String CREATE_REVIEW_SUCCESS = "Review created successfully";
     public static final String REVIEW_NOT_ALLOWED = "Sorry, only patients that have a completed appointments with this veterinarian can leave a review";
     public static final String ALREADY_REVIEWED = "You have already rated this veterinarian, you may edit your previous review";
     public static final String CANNOT_REVIEW = "Veterinarians can not review themselves";
