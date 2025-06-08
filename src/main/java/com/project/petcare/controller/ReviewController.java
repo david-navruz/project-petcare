@@ -70,7 +70,6 @@ public class ReviewController {
     }
 
 
-
     @DeleteMapping(UrlMapping.DELETE_REVIEW)
     public ResponseEntity<APIResponse> deleteReview(@PathVariable Long reviewId) {
         try {
