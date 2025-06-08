@@ -16,4 +16,6 @@ public interface IReviewService {
 
     void deleteReview(Long reviewId);
 
+    Long countByVeterinarianId(Long id);
+
 }

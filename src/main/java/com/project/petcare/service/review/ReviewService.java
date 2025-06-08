@@ -101,4 +101,10 @@ public class ReviewService implements IReviewService {
         reviewRepository.deleteById(reviewId);
     }
 
+
+    @Override
+    public Long countByVeterinarianId(Long id) {
+        return reviewRepository.countByVeterinarianId(id);
+    }
+
 }
