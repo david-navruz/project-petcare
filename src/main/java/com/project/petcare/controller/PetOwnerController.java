@@ -8,12 +8,14 @@ import com.project.petcare.utils.UrlMapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController(UrlMapping.PETOWNERS)
+@RequestMapping(UrlMapping.PETOWNERS)
+@RestController
 public class PetOwnerController {
 
     private final IPetOwnerService petOwnerService;

@@ -91,6 +91,13 @@ public class UrlMapping {
     public static final String GET_ALL_PETOWNERS = "/get-all-petowners";
 
 
+    /*============================ Role Endpoints ===================================*/
+    public static final String ROLES = BASE_API+"/roles";
+    public static final String GET_ALL_ROLES = ROLES+"/all-roles";
+    public static final String GET_ROLE_BY_ID = ROLES+"/role/get-by-id/role";
+    public static final String GET_ROLE_BY_NAME = ROLES+"/role/get-by-name";
+
+
 
     /*============================ Verification Token Endpoints ===================================*/
     public static final String TOKEN_VERIFICATION = BASE_API+"/verification";
@@ -101,7 +108,6 @@ public class UrlMapping {
     public static final String DELETE_TOKEN = "/delete-token";
     public static final String VERIFY_EMAIL = "/verify-your-email";
     public static final String RESEND_VERIFICATION_TOKEN = "/resend-verification-token" ;
-
 
 
 }

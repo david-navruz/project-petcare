@@ -75,6 +75,17 @@ public class AppointmentController {
     }
 
 
+    @GetMapping(UrlMapping.GET_APPOINTMENT_BY_NO)
+    public ResponseEntity<APIResponse> getAppointmentByNo(@PathVariable String appointmentNo) {
+        try {
+            Appointment appointment = appointmentService.getAppointmentByNo(appointmentNo);
+            return ResponseEntity.status(FOUND).body(new APIResponse(FeedBackMessage.APPOINTMENT_FOUND, appointment));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new APIResponse(e.getMessage(), null));
+        }
+    }
+
+
     @DeleteMapping(UrlMapping.DELETE_APPOINTMENT)
     public ResponseEntity<APIResponse> deleteAppointmentById(@PathVariable Long id) {
         try {
@@ -87,6 +98,41 @@ public class AppointmentController {
         }
     }
 
+
+
+    @PutMapping(UrlMapping.CANCEL_APPOINTMENT)
+    public ResponseEntity<APIResponse> cancelAppointment(@PathVariable Long id) {
+        // TO DO
+
+    }
+
+
+    @PutMapping(UrlMapping.APPROVE_APPOINTMENT)
+    public ResponseEntity<APIResponse> approveAppointment(@PathVariable Long id) {
+        // TO DO
+
+
+    }
+
+
+    @PutMapping(UrlMapping.DECLINE_APPOINTMENT)
+    public ResponseEntity<APIResponse> declineAppointment(@PathVariable Long id) {
+        // TO DO
+
+    }
+
+
+    @GetMapping(UrlMapping.COUNT_APPOINTMENT)
+    public long countAppointments() {
+        return appointmentService.countAppointment();
+    }
+
+
+    @GetMapping(UrlMapping.GET_APPOINTMENT_SUMMARY)
+    public ResponseEntity<APIResponse> getAppointmentSummary() {
+        // TO DO
+
+    }
 
 
 }

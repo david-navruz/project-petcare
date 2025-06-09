@@ -2,6 +2,8 @@ package com.project.petcare.service.veterinarian;
 
 import com.project.petcare.dto.EntityConverter;
 import com.project.petcare.dto.UserDTO;
+import com.project.petcare.exception.ResourceNotFoundException;
+import com.project.petcare.model.Appointment;
 import com.project.petcare.model.User;
 import com.project.petcare.model.Veterinarian;
 import com.project.petcare.repository.AppointmentRepository;
@@ -47,21 +49,28 @@ public class VeterinarianService implements IVeterinarianService {
 
     @Override
     public List<UserDTO> findAvailableVetsForAppointment(String specialization, LocalDate date, LocalTime time) {
-
-
-        return List.of();
+        List<Veterinarian> filteredVets = getAvailableVeterinarians(specialization, date, time);
+        return filteredVets.stream()
+                .map(this::mapVeterinarianToUserDto)
+                .toList();
     }
 
 
     @Override
     public List<Veterinarian> getVeterinariansBySpecialization(String specialization) {
-        return List.of();
+        if (!veterinarianRepository.existsBySpecialization(specialization)){
+            throw new ResourceNotFoundException("No veterinarian found with" +specialization +" in the system");
+        }
+        return veterinarianRepository.findBySpecialization(specialization);
     }
 
 
     @Override
     public List<Map<String, Object>> aggregateVetsBySpecialization() {
-        return List.of();
+        List<Object[]> results = veterinarianRepository.countVetsBySpecialization();
+        return results.stream()
+                .map(result -> Map.of("specialization", result[0], "count", result[1]))
+                .toList();
     }
 
 
@@ -86,21 +95,44 @@ public class VeterinarianService implements IVeterinarianService {
 
 
     // Helper Method : getting the list of available Vets
-
-
-
+    private List<Veterinarian> getAvailableVeterinarians(String specialization, LocalDate date, LocalTime time){
+        List<Veterinarian> veterinarians = getVeterinariansBySpecialization(specialization);
+        return veterinarians.stream()
+                .filter(vet -> isVetAvailable(vet, date, time))
+                .toList();
+    }
 
     // Helper Method : check if the Vet is available for a given date and time
-
-
-
+    private boolean isVetAvailable(Veterinarian veterinarian, LocalDate requestedDate, LocalTime requestedTime) {
+        if (requestedDate != null && requestedTime != null) {
+            LocalTime requestedEndTime = requestedTime.plusHours(2);
+            return appointmentRepository.findByVeterinarianAndAppointmentDate(veterinarian, requestedDate)
+                    .stream()
+                    .noneMatch(existingApp -> doesAppointmentOverLap(existingApp, requestedTime, requestedEndTime));
+        }
+        return true;
+    }
 
     // Helper Method : check if there is already an appointment set for a given date and time
-
-
-
-
-
+    /** Vérifie si le créneau horaire demandé chevauche un rendez-vous existant.
+     *  Logique : Un rendez-vous dure 2 heures.
+     *  Le vétérinaire est indisponible :   1 heure avant le début du rendez-vous existant.
+     *                                      2h50 (170 minutes) après la fin du rendez-vous.
+     *  Le créneau est en conflit si :      Il commence après ou pendant l’intervalle d’indisponibilité.
+     *                                      Et se termine avant ou pendant ce même intervalle.
+     *  Cela simule une zone tampon avant et après chaque rendez-vous pour inclure des préparations ou déplacements.
+     * @param existingAppointment
+     * @param requestedStartTime
+     * @param requestedEndTime
+     * @return
+     */
+    private boolean doesAppointmentOverLap(Appointment existingAppointment, LocalTime requestedStartTime, LocalTime requestedEndTime){
+        LocalTime existingStartTime = existingAppointment.getAppointmentTime();
+        LocalTime existingEndTime = existingStartTime.plusHours(2); // Un rendez-vous dure 2 heures.
+        LocalTime unavailableStartTime = existingStartTime.minusHours(1);
+        LocalTime unavailableEndTime = existingEndTime.plusMinutes(170);
+        return !requestedStartTime.isBefore(unavailableStartTime) && !requestedEndTime.isAfter(unavailableEndTime);
+    }
 
 
 }
