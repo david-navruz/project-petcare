@@ -1,5 +1,8 @@
 package com.project.petcare.service.appointment;
 
+import com.project.petcare.dto.AppointmentDTO;
+import com.project.petcare.dto.EntityConverter;
+import com.project.petcare.dto.PetDTO;
 import com.project.petcare.exception.ResourceNotFoundException;
 import com.project.petcare.model.Appointment;
 import com.project.petcare.model.AppointmentStatus;
@@ -18,9 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +32,8 @@ public class AppointmentService implements IAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
     private final IPetService petService;
+    private final EntityConverter<Appointment, AppointmentDTO> entityConverter;
+    private final EntityConverter<Pet, PetDTO> petEntityConverter;
 
 
     @Transactional
@@ -98,5 +103,137 @@ public class AppointmentService implements IAppointmentService {
     public Appointment getAppointmentByNo(String appointmentNo) {
         return appointmentRepository.findByAppointmentNo(appointmentNo);
     }
+
+    @Override
+    public List<AppointmentDTO> getUserAppointments(Long userId) {
+        List<Appointment> appointments = appointmentRepository.findAllByUserId(userId);
+        return appointments.stream()
+                .map(appointment -> {
+                    AppointmentDTO appointmentDTO = entityConverter.mapEntityToDTO(appointment, AppointmentDTO.class);
+                    List<PetDTO> petDTOS = appointment.getPets()
+                            .stream()
+                            .map(pet -> petEntityConverter.mapEntityToDTO(pet, PetDTO.class)).toList();
+                    appointmentDTO.setPets(petDTOS);
+                    return appointmentDTO;
+                }).toList();
+    }
+
+
+    @Override
+    public Appointment cancelAppointment(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .filter(app -> app.getStatus().equals(AppointmentStatus.WAITING_FOR_APPROVAL))
+                .map(app -> {
+                    app.setStatus(AppointmentStatus.CANCELLED);
+                    return appointmentRepository.saveAndFlush(app);
+                }).orElseThrow(() -> new IllegalStateException(FeedBackMessage.APPOINTMENT_UPDATE_NOT_ALLOWED));
+    }
+
+
+    @Override
+    public Appointment approveAppointment(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .filter(app -> app.getStatus().equals(AppointmentStatus.WAITING_FOR_APPROVAL))
+                .map(app -> {
+                    app.setStatus(AppointmentStatus.APPROVED);
+                    return appointmentRepository.saveAndFlush(app);
+                }).orElseThrow(() -> new IllegalStateException(FeedBackMessage.OPERATION_NOT_ALLOWED));
+    }
+
+
+    @Override
+    public Appointment declineAppointment(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .filter(appointment -> appointment.getStatus().equals(AppointmentStatus.WAITING_FOR_APPROVAL))
+                .map(appointment -> {appointment.setStatus(AppointmentStatus.NOT_APPROVED);
+                    return appointmentRepository.saveAndFlush(appointment);
+                }).orElseThrow(() -> new IllegalStateException(FeedBackMessage.OPERATION_NOT_ALLOWED));
+    }
+
+
+    @Override
+    public long countAppointment() {
+        return appointmentRepository.count();
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getAppointmentSummary() {
+        return getAllAppointments()
+                .stream()
+                .collect(Collectors.groupingBy(Appointment::getStatus, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(entry -> createStatusSummaryMap(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
+
+    private Map<String, Object> createStatusSummaryMap(AppointmentStatus status, Long value){
+        Map<String, Object> summaryMap = new HashMap<>();
+        summaryMap.put("name", formatAppointmentStatus(status));
+        summaryMap.put("value", value);
+        return summaryMap;
+    }
+
+    private String formatAppointmentStatus(AppointmentStatus appointmentStatus) {
+        return appointmentStatus.toString().replace("_", "-").toLowerCase();
+    }
+
+
+
+
+    @Override
+    public List<Long> getAppointmentIds() {
+        List<Appointment> appointments = getAllAppointments();
+        return appointments.stream()
+                .map(Appointment::getId)
+                .toList();
+    }
+
+
+    @Override
+    public void setAppointmentStatus(Long appointmentId) {
+        Appointment appointment = getAppointmentById(appointmentId);
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        LocalTime appointmentEndTime = appointment.getAppointmentTime()
+                .plusMinutes(2).truncatedTo(ChronoUnit.MINUTES);
+
+        switch (appointment.getStatus()) {
+            // Appointment is starting soon: UP_COMING
+            case APPROVED:
+                if (currentDate.isBefore(appointment.getAppointmentDate()) ||
+                        (currentDate.isEqual(appointment.getAppointmentDate()) && currentTime.isBefore(appointment.getAppointmentTime()))) {
+                    appointment.setStatus(AppointmentStatus.UP_COMING);
+                }
+                break;
+            // Appointment is still going on: ON_GOING
+            case UP_COMING:
+                if (currentDate.equals(appointment.getAppointmentDate()) &&
+                        currentTime.isAfter(appointment.getAppointmentTime()) && !currentTime.isAfter(appointmentEndTime)) {
+                    appointment.setStatus(AppointmentStatus.ON_GOING);
+                }
+                break;
+            // Appointment is completed: COMPLETED
+            case ON_GOING:
+                if (currentDate.isAfter(appointment.getAppointmentDate()) ||
+                        (currentDate.equals(appointment.getAppointmentDate()) && !currentTime.isBefore(appointment.getAppointmentTime()))) {
+                    appointment.setStatus(AppointmentStatus.COMPLETED);
+                }
+                break;
+            // Appointment is still waiting for approval and the date has passed: NOT_APPROVED
+            // Adjusted to change status to NOT_APPROVED if current time is past the appointment time
+            case WAITING_FOR_APPROVAL:
+                if (currentDate.isAfter(appointment.getAppointmentDate()) ||
+                        (currentDate.equals(appointment.getAppointmentDate()) && currentTime.isAfter(appointment.getAppointmentTime()))) {
+                    appointment.setStatus(AppointmentStatus.NOT_APPROVED);
+                }
+                break;
+        }
+        appointmentRepository.save(appointment);
+    }
+
 
 }

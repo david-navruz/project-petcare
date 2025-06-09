@@ -18,12 +18,10 @@ public class PetOwnerController {
 
     private final IPetOwnerService petOwnerService;
 
-
     @GetMapping(UrlMapping.GET_ALL_PETOWNERS)
-    public ResponseEntity<APIResponse> getAllPatients() {
+    public ResponseEntity<APIResponse> getAllPetOwners() {
         List<UserDTO> petOwnerDTOS = petOwnerService.getPetOwners();
         return ResponseEntity.ok(new APIResponse(FeedBackMessage.RESOURCE_FOUND, petOwnerDTOS));
     }
-
 
 }

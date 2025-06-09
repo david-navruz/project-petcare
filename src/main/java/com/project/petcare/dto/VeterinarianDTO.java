@@ -1,12 +1,14 @@
 package com.project.petcare.dto;
 
-public record VeterinarianDTO(
-        Long veterinarianId,
-        String firstName,
-        String lastName,
-        String email,
-        String gender,
-        String phoneNumber,
-        String specialization
-) {}
+import lombok.Data;
 
+@Data
+public class VeterinarianDTO {
+    private Long veterinarianId;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String gender;
+    private String phoneNumber;
+    private String specialization;
+}

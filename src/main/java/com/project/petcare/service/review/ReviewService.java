@@ -49,10 +49,10 @@ public class ReviewService implements IReviewService {
         }
 
         User veterinarian = userRepository.findById(veterinarianId)
-                .orElseThrow(() -> new ResourceNotFoundException(FeedBackMessage.VET_OR_PATIENT_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(FeedBackMessage.VET_OR_PETOWNER_NOT_FOUND));
 
         User petOwner = userRepository.findById(reviewerId)
-                .orElseThrow(() -> new ResourceNotFoundException(FeedBackMessage.VET_OR_PATIENT_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(FeedBackMessage.VET_OR_PETOWNER_NOT_FOUND));
         // Adding the Vet and PetOwner into the Review and saving to the DB
         review.setVeterinarian(veterinarian);
         review.setPetOwner(petOwner);
