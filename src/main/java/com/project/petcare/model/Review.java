@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -27,5 +29,13 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "reviewer_id")
     private User petOwner;
+
+    public void removeRelationShip() {
+        Optional.ofNullable(veterinarian)
+                .ifPresent(vet -> vet.getReviews().remove(this));
+        Optional.ofNullable(petOwner)
+                .ifPresent(petOwner -> petOwner.getReviews()
+                        .remove(this));
+    }
 
 }

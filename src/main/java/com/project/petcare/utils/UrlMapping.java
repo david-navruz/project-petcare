@@ -16,7 +16,7 @@ public class UrlMapping {
     public static final String UNLOCK_USER_ACCOUNT = "/account/{userId}/unLock-user-account";
     public static final String COUNT_ALL_USERS = "/count/users" ;
     public static final String COUNT_ALL_VETS = "/count/veterinarians" ;
-    public static final String COUNT_ALL_PATIENTS ="/count/patients" ;
+    public static final String COUNT_ALL_PETOWNERS ="/count/petowners" ;
     public static final String AGGREGATE_USERS = "/aggregated-users" ;
 
 
@@ -87,8 +87,15 @@ public class UrlMapping {
 
 
     /*============================ PetOwner API Endpoints ===================================*/
-    public static final String PATIENTS = BASE_API+"/patients";
-    public static final String GET_ALL_PATIENTS = "/get-all-patients";
+    public static final String PETOWNERS = BASE_API+"/petowners";
+    public static final String GET_ALL_PETOWNERS = "/get-all-petowners";
+
+
+    /*============================ Role Endpoints ===================================*/
+    public static final String ROLES = BASE_API+"/roles";
+    public static final String GET_ALL_ROLES = ROLES+"/all-roles";
+    public static final String GET_ROLE_BY_ID = ROLES+"/role/get-by-id/role";
+    public static final String GET_ROLE_BY_NAME = ROLES+"/role/get-by-name";
 
 
 
@@ -101,7 +108,6 @@ public class UrlMapping {
     public static final String DELETE_TOKEN = "/delete-token";
     public static final String VERIFY_EMAIL = "/verify-your-email";
     public static final String RESEND_VERIFICATION_TOKEN = "/resend-verification-token" ;
-
 
 
 }

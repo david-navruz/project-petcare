@@ -50,10 +50,11 @@ public class FeedBackMessage {
 
 
     /*======================== Review API =====================================*/
-    public static final String REVIEW_NOT_ALLOWED = "Sorry, only patients that have a completed appointments with this veterinarian can leave a review";
+    public static final String CREATE_REVIEW_SUCCESS = "Review created successfully";
+    public static final String REVIEW_NOT_ALLOWED = "Sorry, only pet owners that have a completed appointments with this veterinarian can leave a review";
     public static final String ALREADY_REVIEWED = "You have already rated this veterinarian, you may edit your previous review";
     public static final String CANNOT_REVIEW = "Veterinarians can not review themselves";
-    public static final String VET_OR_PATIENT_NOT_FOUND = "Veterinarian or Patient not found";
+    public static final String VET_OR_PETOWNER_NOT_FOUND = "Veterinarian or PetOwner not found";
     public static final String NO_VETS_AVAILABLE = "No veterinarians available for the requested date and time";
     public static final String REVIEW_SUBMIT_SUCCESS = "Review submitted successfully";
     public static final String REVIEW_UPDATE_SUCCESS = "Review updated successfully";

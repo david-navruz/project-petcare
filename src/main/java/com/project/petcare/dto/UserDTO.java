@@ -1,14 +1,13 @@
 package com.project.petcare.dto;
 
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 @Data
 public class UserDTO {
-    private  Long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String gender;

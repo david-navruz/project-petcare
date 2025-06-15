@@ -9,8 +9,8 @@ public class ReviewDTO {
     private String feedback;
     private Long veterinarianId;
     private String veterinarianName;
-    private Long patientId;
-    private String patientName;
-    private byte[] patientImage;
+    private Long petOwnerId;
+    private String petOwnerName;
+    private byte[] petOwnerImage;
     private byte[] veterinarianImage;
 }
