@@ -2,17 +2,21 @@ package com.project.petcare.controller;
 
 import com.project.petcare.dto.EntityConverter;
 import com.project.petcare.dto.UserDTO;
+import com.project.petcare.event.RegistrationCompleteEvent;
 import com.project.petcare.exception.ResourceNotFoundException;
 import com.project.petcare.exception.UserAlreadyExistsException;
 import com.project.petcare.model.User;
+import com.project.petcare.request.ChangePasswordRequest;
 import com.project.petcare.request.RegistrationRequest;
 import com.project.petcare.request.UserUpdateRequest;
 import com.project.petcare.response.APIResponse;
+import com.project.petcare.service.password.IChangePasswordService;
 import com.project.petcare.service.user.IUserService;
 import com.project.petcare.service.user.UserService;
 import com.project.petcare.utils.FeedBackMessage;
 import com.project.petcare.utils.UrlMapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +31,16 @@ import static org.springframework.http.HttpStatus.*;
 public class UserController {
 
     private final UserService userService;
+    private final IChangePasswordService changePasswordService;
     private final EntityConverter<User, UserDTO> entityConverter;
+    private final ApplicationEventPublisher publisher;
 
 
     @PostMapping(UrlMapping.REGISTER_USER)
     public ResponseEntity<APIResponse> register(@RequestBody RegistrationRequest request) {
         try {
             User theUser = userService.createNewUser(request);
+            publisher.publishEvent(new RegistrationCompleteEvent(theUser));
             UserDTO savedUser = entityConverter.mapEntityToDTO(theUser, UserDTO.class);
             return ResponseEntity.ok(new APIResponse(FeedBackMessage.CREATE_USER_SUCCESS, savedUser));
         } catch (UserAlreadyExistsException e) {
@@ -151,19 +158,19 @@ public class UserController {
     }
 
 
-/*    @PutMapping(UrlMapping.CHANGE_PASSWORD)
-    public ResponseEntity<ApiResponse> changePassword(@PathVariable Long userId,
+    @PutMapping(UrlMapping.CHANGE_PASSWORD)
+    public ResponseEntity<APIResponse> changePassword(@PathVariable Long userId,
                                                       @RequestBody ChangePasswordRequest request) {
         try {
             changePasswordService.changePassword(userId, request);
-            return ResponseEntity.ok(new ApiResponse(FeedBackMessage.PASSWORD_CHANGE_SUCCESS, null));
+            return ResponseEntity.ok(new APIResponse(FeedBackMessage.PASSWORD_CHANGE_SUCCESS, null));
         } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new APIResponse(e.getMessage(), null));
         }catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+            return ResponseEntity.status(NOT_FOUND).body(new APIResponse(e.getMessage(), null));
         }catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new APIResponse(e.getMessage(), null));
         }
-    }*/
+    }
 
 }
