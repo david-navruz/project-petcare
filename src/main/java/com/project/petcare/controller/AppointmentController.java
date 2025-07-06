@@ -1,6 +1,7 @@
 package com.project.petcare.controller;
 
 import com.project.petcare.event.AppointmentApprovedEvent;
+import com.project.petcare.event.AppointmentBookedEvent;
 import com.project.petcare.event.AppointmentDeclinedEvent;
 import com.project.petcare.exception.ResourceNotFoundException;
 import com.project.petcare.model.Appointment;
@@ -36,6 +37,7 @@ public class AppointmentController {
             @RequestParam Long recipientId) {
         try {
             Appointment theAppointment = appointmentService.createAppointment(appointmentRequest, senderId, recipientId);
+            publisher.publishEvent(new AppointmentBookedEvent(theAppointment));
             return ResponseEntity.ok(new APIResponse(FeedBackMessage.SUCCESS, theAppointment));
 
         } catch (ResourceNotFoundException e) {
