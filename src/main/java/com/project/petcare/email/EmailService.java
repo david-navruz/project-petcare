@@ -12,6 +12,7 @@ import java.util.Properties;
 
 @Component
 public class EmailService {
+
     private JavaMailSender mailSender;
 
 

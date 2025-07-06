@@ -25,7 +25,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
@@ -48,8 +47,7 @@ public class AuthController {
     public ResponseEntity<APIResponse> login(@Valid @RequestBody LoginRequest request) {
         try {
             Authentication authentication =
-                    authenticationManager
-                            .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateTokenForUser(authentication);
             PetCareUserDetails userDetails = (PetCareUserDetails) authentication.getPrincipal();

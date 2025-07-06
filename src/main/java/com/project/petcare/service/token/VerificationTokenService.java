@@ -44,7 +44,6 @@ public class VerificationTokenService implements IVerificationTokenService {
     public void saveVerificationTokenForUser(String token, User user) {
         var verificationToken = new VerificationToken(token, user);
         tokenRepository.save(verificationToken);
-
     }
 
     @Transactional
