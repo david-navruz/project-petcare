@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UPCUserDetails implements UserDetails {
+public class PetCareUserDetails implements UserDetails {
 
     private Long id;
     private String email;
@@ -27,12 +27,12 @@ public class UPCUserDetails implements UserDetails {
 
 
 
-    public static UPCUserDetails buildUserDetails(User user) {
+    public static PetCareUserDetails buildUserDetails(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
-        return new UPCUserDetails(
+        return new PetCareUserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),

@@ -1,5 +1,6 @@
 package com.project.petcare.security.jwt;
 
+import com.project.petcare.security.user.PetCareUserDetailsService;
 import com.project.petcare.security.user.UPCUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +24,7 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     private JwtUtils jwtUtils;
-    UPCUserDetailsService userDetailsService;
+    PetCareUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -44,7 +45,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         }
         filterChain.doFilter(request, response);
-
     }
 
     private String parseJwt(HttpServletRequest request) {

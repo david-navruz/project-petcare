@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UPCUserDetailsService implements UserDetailsService {
+public class PetCareUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -19,7 +19,7 @@ public class UPCUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(FeedBackMessage.RESOURCE_NOT_FOUND));
-        return UPCUserDetails.buildUserDetails(user);
+        return PetCareUserDetails.buildUserDetails(user);
     }
 
 }

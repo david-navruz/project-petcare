@@ -1,6 +1,6 @@
 package com.project.petcare.security.jwt;
 
-import com.project.petcare.security.user.UPCUserDetails;
+import com.project.petcare.security.user.PetCareUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -22,7 +22,7 @@ public class JwtUtils {
 
 
     public String generateTokenForUser(Authentication authentication) {
-        UPCUserDetails userPrincipal = (UPCUserDetails) authentication.getPrincipal();
+        PetCareUserDetails userPrincipal = (PetCareUserDetails) authentication.getPrincipal();
 
         List<String> roles = userPrincipal.getAuthorities()
                 .stream().map(GrantedAuthority::getAuthority)

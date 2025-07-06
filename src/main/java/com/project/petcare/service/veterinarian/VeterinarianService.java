@@ -134,5 +134,4 @@ public class VeterinarianService implements IVeterinarianService {
         return !requestedStartTime.isBefore(unavailableStartTime) && !requestedEndTime.isAfter(unavailableEndTime);
     }
 
-
 }
