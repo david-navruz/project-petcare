@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class NotificationEventListener implements ApplicationListener<ApplicationEvent> {
 
     private final EmailService emailService;
