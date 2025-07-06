@@ -9,7 +9,7 @@ import com.project.petcare.request.PasswordResetRequest;
 import com.project.petcare.response.APIResponse;
 import com.project.petcare.response.JwtResponse;
 import com.project.petcare.security.jwt.JwtUtils;
-import com.project.petcare.security.user.UPCUserDetails;
+import com.project.petcare.security.user.PetCareUserDetails;
 import com.project.petcare.service.password.PasswordResetService;
 import com.project.petcare.service.token.VerificationTokenService;
 import com.project.petcare.utils.FeedBackMessage;
@@ -25,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class AuthController {
                             .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateTokenForUser(authentication);
-            UPCUserDetails userDetails = (UPCUserDetails) authentication.getPrincipal();
+            PetCareUserDetails userDetails = (PetCareUserDetails) authentication.getPrincipal();
             JwtResponse jwtResponse = new JwtResponse(userDetails.getId(), jwt);
             return ResponseEntity.ok(new APIResponse(FeedBackMessage.AUTHENTICATION_SUCCESS, jwtResponse));
 

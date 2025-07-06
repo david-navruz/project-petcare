@@ -26,7 +26,6 @@ public class PetCareUserDetails implements UserDetails {
     private Collection<GrantedAuthority> authorities;
 
 
-
     public static PetCareUserDetails buildUserDetails(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream()

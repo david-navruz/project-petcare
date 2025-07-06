@@ -1,11 +1,11 @@
 package com.project.petcare.security.jwt;
 
 import com.project.petcare.security.user.PetCareUserDetailsService;
-import com.project.petcare.security.user.UPCUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@RequiredArgsConstructor
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JwtUtils jwtUtils;
-    PetCareUserDetailsService userDetailsService;
+    @Autowired
+    private PetCareUserDetailsService userDetailsService;
+
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
