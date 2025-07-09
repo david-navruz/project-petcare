@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "email")
+@ConfigurationProperties(prefix = "spring.mail")
 public class EmailProperties {
     private String host;
     private int port;

@@ -12,6 +12,6 @@ public class RegistrationRequest {
     private String email;
     private String password;
     private String userType;
-    private boolean isEnabled;
+    private boolean enabled;
     private String specialization;
 }

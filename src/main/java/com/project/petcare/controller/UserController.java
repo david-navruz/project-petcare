@@ -11,7 +11,6 @@ import com.project.petcare.request.RegistrationRequest;
 import com.project.petcare.request.UserUpdateRequest;
 import com.project.petcare.response.APIResponse;
 import com.project.petcare.service.password.IChangePasswordService;
-import com.project.petcare.service.user.IUserService;
 import com.project.petcare.service.user.UserService;
 import com.project.petcare.utils.FeedBackMessage;
 import com.project.petcare.utils.UrlMapping;
