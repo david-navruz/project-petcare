@@ -39,7 +39,7 @@ public class VeterinarianController {
     public ResponseEntity<APIResponse> searchVeterinariansForAppointment(
             @RequestParam(value = "date", required = false) LocalDate date,
             @RequestParam(value = "time", required = false) LocalTime time,
-            @RequestParam String specialization) {
+            @RequestParam(value = "specialization") String specialization) {
 
         try {
             List<UserDTO> availableVets = veterinarianService.findAvailableVetsForAppointment(specialization, date, time);
