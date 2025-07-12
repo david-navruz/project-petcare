@@ -105,7 +105,7 @@ public class UserController {
         return userService.countVeterinarians();
     }
     @GetMapping(UrlMapping.COUNT_ALL_PETOWNERS)
-    public long countPatients() {
+    public long countPetOwners() {
         return userService.countPetOwners();
     }
 

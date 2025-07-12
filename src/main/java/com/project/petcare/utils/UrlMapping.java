@@ -7,9 +7,9 @@ public class UrlMapping {
     /*========================== User API Endpoints =================================*/
     public static final String USERS = BASE_API+"/users" ;
     public static final String REGISTER_USER = "/register";
-    public static final String UPDATE_USER = "/{userId}/update";
+    public static final String UPDATE_USER = "/user/{userId}/update";
     public static final String GET_USER_BY_ID = "/{userId}";
-    public static final String DELETE_USER_BY_ID ="/{userId}/delete";
+    public static final String DELETE_USER_BY_ID ="/user/{userId}/delete";
     public static final String GET_ALL_USERS = "/all-users";
     public static final String AGGREGATE_BY_STATUS = "/account/aggregated-by-status";
     public static final String LOCK_USER_ACCOUNT = "/account/{userId}/lock-user-account";
