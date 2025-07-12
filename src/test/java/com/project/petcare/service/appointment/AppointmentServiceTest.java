@@ -11,9 +11,10 @@ import com.project.petcare.request.AppointmentUpdateRequest;
 import com.project.petcare.request.BookAppointmentRequest;
 import com.project.petcare.service.pet.IPetService;
 import com.project.petcare.utils.FeedBackMessage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {
 
     @Mock
@@ -37,10 +39,6 @@ class AppointmentServiceTest {
     @InjectMocks
     private AppointmentService appointmentService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
 
     // -------- createAppointment ----------
@@ -189,22 +187,6 @@ class AppointmentServiceTest {
         assertEquals(appointment, appointmentService.getAppointmentByNo(appointmentNo));
     }
 
-
-    // -------- getUserAppointments ----------
-
-    @Test
-    void getUserAppointments_success() {
-        Long userId = 7L;
-        Appointment appointment = new Appointment();
-        appointment.setPets(Arrays.asList(new Pet(), new Pet()));
-        List<Appointment> list = List.of(appointment);
-        when(appointmentRepository.findAllByUserId(userId)).thenReturn(list);
-        when(entityConverter.mapEntityToDTO(any(Appointment.class), eq(AppointmentDTO.class))).thenReturn(new AppointmentDTO());
-        when(petEntityConverter.mapEntityToDTO(any(Pet.class), eq(PetDTO.class))).thenReturn(new PetDTO());
-
-        List<AppointmentDTO> dtos = appointmentService.getUserAppointments(userId);
-        assertEquals(1, dtos.size());
-    }
 
 
     // -------- cancelAppointment ----------

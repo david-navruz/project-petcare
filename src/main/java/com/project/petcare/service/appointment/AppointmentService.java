@@ -110,9 +110,13 @@ public class AppointmentService implements IAppointmentService {
         return appointments.stream()
                 .map(appointment -> {
                     AppointmentDTO appointmentDTO = entityConverter.mapEntityToDTO(appointment, AppointmentDTO.class);
+                    if (appointmentDTO == null) {
+                        throw new IllegalStateException("EntityConverter returned null AppointmentDTO");
+                    }
                     List<PetDTO> petDTOS = appointment.getPets()
                             .stream()
-                            .map(pet -> petEntityConverter.mapEntityToDTO(pet, PetDTO.class)).toList();
+                            .map(pet -> petEntityConverter.mapEntityToDTO(pet, PetDTO.class))
+                            .toList();
                     appointmentDTO.setPets(petDTOS);
                     return appointmentDTO;
                 }).toList();
