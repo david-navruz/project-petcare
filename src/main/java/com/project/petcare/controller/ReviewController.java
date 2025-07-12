@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/reviews")
+@RequestMapping(UrlMapping.REVIEWS)
 @RestController
 public class ReviewController {
 

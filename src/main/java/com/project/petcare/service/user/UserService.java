@@ -95,15 +95,17 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-
+    @Override
     public UserDTO getUserWithDetails(Long userId) throws SQLException {
         Optional<User> user = userRepository.findById(userId);
-        UserDTO userDto = entityConverter.mapEntityToDTO(user.get(), UserDTO.class);
-        userDto.setTotalReviewers(reviewRepository.countByVeterinarianId(userId));
-
-        setUserAppointment(userDto);
-        setUserPhoto(userDto, user.get());
-        setUserReviews(userDto, userId);
+        UserDTO userDto = new UserDTO();
+        if (user.isPresent()) {
+            userDto = entityConverter.mapEntityToDTO(user.get(), UserDTO.class);
+            userDto.setTotalReviewers(reviewRepository.countByVeterinarianId(userId));
+            setUserAppointment(userDto);
+            setUserPhoto(userDto, user.get());
+            setUserReviews(userDto, userId);
+        }
         return userDto;
     }
 

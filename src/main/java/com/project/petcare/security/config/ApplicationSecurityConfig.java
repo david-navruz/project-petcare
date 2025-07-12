@@ -31,9 +31,9 @@ public class ApplicationSecurityConfig {
     private final PetCareUserDetailsService userDetailsService;
     private final JwtAuthEntryPoint authEntryPoint;
 
-    private static final List<String> SECURED_URLS = List.of(
-            "/api/v1/appointments/book-appointment",
-            "/api/v1/reviews/**");
+    private static final List<String> SECURED_URLS = List.of();
+       //     "/api/v1/appointments/book-appointment",
+       //     "/api/v1/reviews/**");
 
     @Bean
     public AuthTokenFilter authTokenFilter() {
